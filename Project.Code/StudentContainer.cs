@@ -18,6 +18,7 @@ namespace Project.Code
         public static void ListAllStudents()
         {
             int i = 1;
+            Console.WriteLine("Students in a system:");
             //listing all students in list
             foreach (Student s in Students.OrderBy(o => o.LastName).ToList())
             {

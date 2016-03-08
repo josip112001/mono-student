@@ -8,41 +8,44 @@ namespace Project.Code
 {
     public class Validation
     {
+        public static string validatedOperation;
+        public static int err;
+
         //checking if user has inserted non-existing operation
-        public static string ValidateOperation(string operation)
+        public static bool ValidateOperation(string validOperation)
         {
-            if (operation.Equals(Operations.enlist, StringComparison.OrdinalIgnoreCase))
+            if (validOperation.Equals(Operations.enlist, StringComparison.OrdinalIgnoreCase))
             {
-                operation = "enlist";
-                return operation;
+                validatedOperation = Operations.enlist;
+                return true;
             }
-            else if (operation.Equals(Operations.display, StringComparison.OrdinalIgnoreCase))
+            else if (validOperation.Equals(Operations.display, StringComparison.OrdinalIgnoreCase))
             {
-                operation = "display";
-                return operation;
+                validatedOperation = Operations.display;
+                return true;
             }
             else
-            {
-                Console.WriteLine("This operation does not exist");
-                operation = "unknown";
-                return operation;
+            {          
+                return false;
             }
         }
+
         //checking if user has inserted empty string
         public static bool ValidateString(string input)
         {
-            if (input == "")
+            if (String.IsNullOrEmpty(input))
             {
-                Console.WriteLine("You need to insert value.");
                 return false;
             }
             else return true;
         }
+
         //checking if user has inserted non-numericalvalue for GPA or empty-value
         public static bool ValidateGPA(string gpa)
         {
             float result;
-            if (gpa != "")
+            err = 0;
+            if (!String.IsNullOrEmpty(gpa))
             {
                 if (float.TryParse(gpa, out result))
                 {
@@ -50,15 +53,15 @@ namespace Project.Code
                 }
                 else
                 {
-                    Console.WriteLine("You need to insert numerical value.");
+                    err = 1;
                     return false;
                 }
             }
             else
             {
-                Console.WriteLine("You need to insert value");
+                err = 2;
                 return false;
             }
-        }
+        } 
     }
 }

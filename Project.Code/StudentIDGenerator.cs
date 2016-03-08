@@ -5,17 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Project.Code
-{
+{ 
     public class StudentIdGenerator
     {
-        //static field currentID stores the ID of the last 
-        //person that has been created
-        private static int currentID;
-
-        public static int CreatePersonId()
+        private static int id = 0;
+        private static StudentIdGenerator currentID;
+        private StudentIdGenerator() { }
+        public  StudentIdGenerator CurrentID
         {
-            return ++currentID;
+            get
+            {
+                if (currentID == null)
+                {
+                    currentID = new StudentIdGenerator();
+                }
+                return currentID;
+            }
         }
 
+        public static int ID()
+        {
+            return id++;
+        }
     }
 }

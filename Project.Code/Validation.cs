@@ -8,20 +8,11 @@ namespace Project.Code
 {
     public class Validation
     {
-        public static string validatedOperation;
-        public static int err;
-
         //checking if user has inserted non-existing operation
-        public static bool ValidateOperation(string validOperation)
+        public static bool ValidateOperation(string operation)
         {
-            if (validOperation.Equals(Operations.enlist, StringComparison.OrdinalIgnoreCase))
+            if (operation.Equals(Operations.enlist, StringComparison.OrdinalIgnoreCase) || operation.Equals(Operations.display, StringComparison.OrdinalIgnoreCase))
             {
-                validatedOperation = Operations.enlist;
-                return true;
-            }
-            else if (validOperation.Equals(Operations.display, StringComparison.OrdinalIgnoreCase))
-            {
-                validatedOperation = Operations.display;
                 return true;
             }
             else
@@ -44,22 +35,12 @@ namespace Project.Code
         public static bool ValidateGPA(string gpa)
         {
             float result;
-            err = 0;
-            if (!String.IsNullOrEmpty(gpa))
+            if (!String.IsNullOrEmpty(gpa) && float.TryParse (gpa,out result))
             {
-                if (float.TryParse(gpa, out result))
-                {
                     return true;
-                }
-                else
-                {
-                    err = 1;
-                    return false;
-                }
             }
             else
             {
-                err = 2;
                 return false;
             }
         } 

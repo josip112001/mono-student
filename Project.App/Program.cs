@@ -10,11 +10,10 @@ namespace Project.App
 {
     class Program
     {
-        public static string operation = "unknown";
+        public static string operation;
         static string firstname;
         static string lastname;
         static string gpa;
-        static bool flag = false;
 
         static void Main(string[] args)
         {
@@ -22,83 +21,78 @@ namespace Project.App
             {
                 do
                 {
-                    if (flag)
+                    Console.Write("Operation:");
+                    operation = Console.ReadLine();
+
+                    if (!Validation.ValidateOperation(operation))
                     {
                         Console.WriteLine("This operation does not exist");
                     }
-                    Console.Write("Operation:");
-                    operation = Console.ReadLine();
-                    flag = true;
-                }
-                while (!Validation.ValidateOperation(operation));
-                flag = false;
-                switch (Validation.validatedOperation)
-                {
-                    case Operations.enlist:
-                        do
-                        {
-                            if (flag)
-                            {
-                                Console.WriteLine("You need to insert value");
-                            }
-                            Console.WriteLine("Student");
-                            Console.Write("Firstname:");
-                            firstname = Console.ReadLine();
-                            flag = true;
-                        }
-                        while (!Validation.ValidateString(firstname));
-                        flag = false;
-                        do
-                        {
-                            if (flag)
-                            {
-                                Console.WriteLine("You need to insert value");
-                            }
-                            Console.Write("Lastname:");
-                            lastname = Console.ReadLine();
-                            flag = true;
-                        }
-                        while (!Validation.ValidateString(lastname));
-                        flag = false;
-                        do
-                        {
-                            if (Validation.err == 1)
-                            {
-                                Console.WriteLine("You need to insert numerical value");
-                            }
-                            if (Validation.err == 2)
-                            {
-                                Console.WriteLine("You need to insert value");
-                            }
-                            Console.Write("GPA:");
-                            gpa = Console.ReadLine();
-                            flag = true;
-                        }
-                        while (!Validation.ValidateGPA(gpa));
-                        flag = false;
 
-                        // create new student object with data that user have inserted
-                        StudentContainer.InsertStudentIntoList(firstname, lastname, gpa);
-                        break;
-                    case Operations.display:
-                        //displaying all students from list
-                        int i = 1;
-                        Console.WriteLine("Students in a system:");
-                        foreach (Student s in StudentContainer.DisplayStudentsList().OrderBy(o => o.LastName).ToList())
+                } while (!Validation.ValidateOperation(operation));
+
+                if (operation.Equals(Operations.enlist, StringComparison.OrdinalIgnoreCase))
+                {
+                    do
+                    {
+                        Console.WriteLine("Student");
+                        Console.Write("Firstname:");
+                        firstname = Console.ReadLine();
+                        if (!Validation.ValidateString(firstname))
                         {
-                            Console.WriteLine("{0}.{1},{2} - {3}", i, s.LastName, s.Name, s.GPA.Replace(',', '.'));
-                            i++;
+                            Console.WriteLine("You need to insert value");
                         }
-                        Console.ReadLine();
-                        break;
-                    default:
-                        break;
+                    } while (!Validation.ValidateString(firstname));
+
+                    do
+                    {
+                        Console.Write("Lastname:");
+                        lastname = Console.ReadLine();
+                        if (!Validation.ValidateString(lastname))
+                        {
+                            Console.WriteLine("You need to insert value");
+                        }
+
+                    } while (!Validation.ValidateString(lastname));
+
+                    do
+                    {
+                        float result;
+                        Console.Write("GPA:");
+                        gpa = Console.ReadLine();
+                        if (String.IsNullOrEmpty(gpa))
+                        {
+                            Console.WriteLine("You need to insert value");
+                        }
+
+                        if (!float.TryParse(gpa, out result) && !String.IsNullOrEmpty(gpa))
+                        {
+                            Console.WriteLine("You need to insert numerical value");
+                        }
+
+                    } while (!Validation.ValidateGPA(gpa));
+
+                    //inserting student into list
+                    StudentContainer.InsertStudent(firstname, lastname, gpa);
                 }
-            }
-            while (operation != Operations.display);
-        }
-    }        
+
+                else
+                {
+                    //displaying all students
+                    int i = 1;
+                    Console.WriteLine("Students in a system:");
+                    foreach (Student s in StudentContainer.GetStudents())
+                    {
+                        Console.WriteLine("{0}.{1},{2} - {3}", i, s.LastName, s.Name, s.GPA.Replace(',', '.'));
+                        i++;
+                    }
+                    Console.ReadLine();
+                }
+            } while (!operation.Equals(Operations.display, StringComparison.OrdinalIgnoreCase));
+        } 
+     }
 }
+
   
 
 

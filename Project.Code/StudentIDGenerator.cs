@@ -9,21 +9,21 @@ namespace Project.Code
     public class StudentIdGenerator
     {
         private static int id = 0;
-        private static StudentIdGenerator currentID;
+        private static StudentIdGenerator idGenerator;
         private StudentIdGenerator() { }
-        public  StudentIdGenerator CurrentID
+        public static StudentIdGenerator IdGenerator          
         {
             get
             {
-                if (currentID == null)
+                if (idGenerator == null)
                 {
-                    currentID = new StudentIdGenerator();
+                    idGenerator  = new StudentIdGenerator();
                 }
-                return currentID;
+                return idGenerator;
             }
         }
 
-        public static int ID()
+        public int GetNextID()                     
         {
             return id++;
         }

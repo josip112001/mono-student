@@ -16,7 +16,9 @@ namespace Project.Code
         //Instance constructor that has three parameters.
         public Person(string firstName, string lastName)
         {
-            this.ID = StudentIdGenerator.ID();
+
+
+            this.ID = StudentIdGenerator.IdGenerator.GetNextID();
             this.Name = firstName;
             this.LastName = lastName;
         }

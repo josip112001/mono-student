@@ -8,17 +8,23 @@ namespace Project.Code
 {
     public class StudentContainer
     {
-        static List<Student> Students = new List<Student>();
+        public static List<Student> Students = new List<Student>();
 
-        public static void InsertStudentIntoList(string firstName, string lastName, string gpa)
+        public static void InsertStudent(string firstName, string lastName, string gpa)
         {
             //inserting new student into list
             Students.Add(new Student(firstName, lastName, gpa));
         }
 
-        public static List<Student> DisplayStudentsList()
+        public static List<Student> GetStudents()
         {
+            SortStudents();
             return Students;
+        }
+
+        public static void SortStudents()
+        {
+            Students = Students.OrderBy(o => o.LastName).ToList();
         }
     }
 }

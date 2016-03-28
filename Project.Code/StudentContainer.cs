@@ -8,7 +8,7 @@ namespace Project.Code
 {
     public class StudentContainer
     {
-        public static List<Student> Students = new List<Student>();
+        private static List<Student> Students = new List<Student>();
 
         public static void InsertStudent(string firstName, string lastName, string gpa)
         {
@@ -22,7 +22,7 @@ namespace Project.Code
             return Students;
         }
 
-        public static void SortStudents()
+        private static void SortStudents()
         {
             Students = Students.OrderBy(o => o.LastName).ToList();
         }

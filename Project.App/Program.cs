@@ -10,26 +10,30 @@ namespace Project.App
 {
     class Program
     {
-        public static string operation;
-        static string firstname;
-        static string lastname;
-        static string gpa;
-
         static void Main(string[] args)
         {
+            string operation;
+            string firstname;
+            string lastname;
+            string gpa;
+            bool isValid;
+
             do
             {
                 do
                 {
                     Console.Write("Operation:");
                     operation = Console.ReadLine();
-
                     if (!Validation.ValidateOperation(operation))
                     {
+                        isValid = false;
                         Console.WriteLine("This operation does not exist");
                     }
-
-                } while (!Validation.ValidateOperation(operation));
+                    else
+                    {
+                        isValid = true;
+                    }
+                } while (!isValid);
 
                 if (operation.Equals(Operations.enlist, StringComparison.OrdinalIgnoreCase))
                 {
@@ -40,9 +44,14 @@ namespace Project.App
                         firstname = Console.ReadLine();
                         if (!Validation.ValidateString(firstname))
                         {
+                            isValid = false;
                             Console.WriteLine("You need to insert value");
                         }
-                    } while (!Validation.ValidateString(firstname));
+                        else
+                        {
+                            isValid = true;
+                        }
+                    } while (!isValid);
 
                     do
                     {
@@ -50,10 +59,14 @@ namespace Project.App
                         lastname = Console.ReadLine();
                         if (!Validation.ValidateString(lastname))
                         {
+                            isValid = false;
                             Console.WriteLine("You need to insert value");
                         }
-
-                    } while (!Validation.ValidateString(lastname));
+                        else
+                        {
+                            isValid = true;
+                        }
+                    } while (!isValid);
 
                     do
                     {
@@ -62,15 +75,20 @@ namespace Project.App
                         gpa = Console.ReadLine();
                         if (String.IsNullOrEmpty(gpa))
                         {
+                            isValid = false;
                             Console.WriteLine("You need to insert value");
                         }
 
-                        if (!float.TryParse(gpa, out result) && !String.IsNullOrEmpty(gpa))
+                        else if (!float.TryParse(gpa, out result) && !String.IsNullOrEmpty(gpa))
                         {
+                            isValid = false;
                             Console.WriteLine("You need to insert numerical value");
                         }
-
-                    } while (!Validation.ValidateGPA(gpa));
+                        else
+                        {
+                            isValid = true;
+                        }
+                    } while (!isValid);
 
                     //inserting student into list
                     StudentContainer.InsertStudent(firstname, lastname, gpa);
